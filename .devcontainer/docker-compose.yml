@@ -1,0 +1,37 @@
+volumes:
+  postgres-data:
+
+networks:
+  task_queue_net:
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+        - .env
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    networks:
+      - task_queue_net
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - task_queue_net
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    networks:
+      - task_queue_net
