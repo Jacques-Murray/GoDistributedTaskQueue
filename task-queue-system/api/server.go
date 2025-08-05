@@ -10,6 +10,8 @@ import (
 	pb "task-queue-system/proto"
 
 	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // Server is the struct that implements the gRPC TaskService.
@@ -20,6 +22,14 @@ type Server struct {
 // SubmitTask is the gRPC method for adding a new task to the queue.
 func (s *Server) SubmitTask(ctx context.Context, req *pb.SubmitTaskRequest) (*pb.SubmitTaskResponse, error) {
 	log.Printf("Received SubmitTask request: Type=%s", req.Type)
+
+	// Before processing, validate that the incoming payload is a valid JSON string.
+	// This prevents errors when saving to the jsonb database column.
+	var js json.RawMessage
+	if err := json.Unmarshal([]byte(req.Payload), &js); err != nil {
+		log.Printf("Error: payload is not valid JSON: %v", err)
+		return nil, status.Errorf(codes.InvalidArgument, "payload field must be a valid JSON string")
+	}
 
 	// Create a new task model from the request.
 	task := database.Task{
