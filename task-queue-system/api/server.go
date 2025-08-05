@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"log"
 
-	pb "task-queue-system/api/proto"
 	"task-queue-system/internal/database"
 	"task-queue-system/internal/queue"
+	pb "task-queue-system/proto"
 
 	"github.com/google/uuid"
 )
