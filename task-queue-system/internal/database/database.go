@@ -17,7 +17,7 @@ var DB *gorm.DB
 // Each field is mapped to a column in the 'tasks' table.
 type Task struct {
 	// ID is the unique identifier for the task, a UUID generated on creation.
-	ID uuid.UUID `gorm:"type:uuid,primary_key;"`
+	ID uuid.UUID `gorm:"type:uuid;primary_key;"`
 
 	// Type is a string that identifies the kind of task (e.g., "send_email").
 	Type string
