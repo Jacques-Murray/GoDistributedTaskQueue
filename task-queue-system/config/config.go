@@ -9,15 +9,14 @@ import (
 
 // Config holds the application's configuration values.
 type Config struct {
-	DatabaseURL string `envconfig:"POSTGRES_HOSTNAME"`
-	RedisURL    string `envconfig:"REDIS_URL"`
-	GRPCPort    string `envconfig:"GRPC_PORT"`
+	DatabaseURL string
+	RedisURL    string
+	GRPCPort    string
 }
 
 // LoadConfig load configuration from a .env file and environment variables.
 func LoadConfig() Config {
-	// Load values from .env file for local development.
-	// In production, these should be set directly as environment variables.
+	// Load values from .env file for local development. This is useful for development outside of Docker.
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, using environment variables.")
 	}
