@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/datatypes"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -23,7 +24,7 @@ type Task struct {
 	Type string
 
 	// Payload stores the data required for the task to run, as a JSON object.
-	Payload string `gorm:"type:jsonb"`
+	Payload datatypes.JSON `gorm:"type:jsonb"`
 
 	// Priority determines the execution order. Higher numbers are higher priority.
 	Priority int `gorm:"default:0"`
