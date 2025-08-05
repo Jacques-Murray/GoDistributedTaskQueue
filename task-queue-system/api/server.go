@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/datatypes"
 )
 
 // Server is the struct that implements the gRPC TaskService.
@@ -34,7 +35,7 @@ func (s *Server) SubmitTask(ctx context.Context, req *pb.SubmitTaskRequest) (*pb
 	// Create a new task model from the request.
 	task := database.Task{
 		Type:     req.Type,
-		Payload:  req.Payload,
+		Payload:  datatypes.JSON(req.Payload),
 		Priority: int(req.Priority),
 		Status:   "PENDING",
 	}
