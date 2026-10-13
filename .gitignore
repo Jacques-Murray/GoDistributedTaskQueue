@@ -1,1 +1,4 @@
 .devcontainer/.env
+
+# compiled binaries
+task-queue-system/bin/
